@@ -576,7 +576,7 @@ export function createSidebar(
     persistence,
     mobileMediaQuery,
     mode = "responsive",
-    width = "16rem",
+    width = "17.5rem",
     collapsedWidth = "3.5rem",
     mobileWidth = "18rem",
     className,
@@ -751,19 +751,17 @@ export function createSidebar(
       if (!items || items.length === 0) return null
       return (
         <Primitives.DropdownMenu>
-          <DropdownMenuTrigger
-            render={
-              <Primitives.Button
-                type="button"
-                variant="ghost"
-                size="icon-xs"
-                className="size-6 p-0 text-muted-foreground hover:text-foreground"
-                aria-label={label}
-              >
-                <Primitives.ActionsIcon />
-              </Primitives.Button>
-            }
-          />
+          <DropdownMenuTrigger asChild>
+            <Primitives.Button
+              type="button"
+              variant="ghost"
+              size="icon-xs"
+              className="size-6 p-0 text-muted-foreground hover:text-foreground"
+              aria-label={label}
+            >
+              <Primitives.ActionsIcon />
+            </Primitives.Button>
+          </DropdownMenuTrigger>
           <DropdownMenuContent align="end" side={side === "left" ? "right" : "left"}>
             {items.map((act) => (
               <DropdownMenuItem
@@ -807,27 +805,25 @@ export function createSidebar(
           return (
             <Primitives.Item key={item.id} className={classNames?.item}>
               <Primitives.DropdownMenu>
-                <DropdownMenuTrigger
-                  render={
-                    <Primitives.Button
-                      type="button"
-                      variant="ghost"
-                      size="sm"
-                      aria-label={accessibleText}
-                      className={cn(
-                        "size-9 p-0 justify-center rounded-lg hover:bg-sidebar-accent",
-                        hasActive && "bg-sidebar-accent text-sidebar-accent-foreground",
-                        classNames?.control
-                      )}
-                    >
-                      {item.icon ? (
-                        <span className="size-4 shrink-0">{item.icon}</span>
-                      ) : (
-                        <Folder className="size-4 shrink-0 text-sidebar-foreground/70" />
-                      )}
-                    </Primitives.Button>
-                  }
-                />
+                <DropdownMenuTrigger asChild>
+                  <Primitives.Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    aria-label={accessibleText}
+                    className={cn(
+                      "size-9 p-0 justify-center rounded-lg hover:bg-sidebar-accent",
+                      hasActive && "bg-sidebar-accent text-sidebar-accent-foreground",
+                      classNames?.control
+                    )}
+                  >
+                    {item.icon ? (
+                      <span className="size-4 shrink-0">{item.icon}</span>
+                    ) : (
+                      <Folder className="size-4 shrink-0 text-sidebar-foreground/70" />
+                    )}
+                  </Primitives.Button>
+                </DropdownMenuTrigger>
                 <DropdownMenuContent
                   side={side === "left" ? "right" : "left"}
                   align="start"
@@ -847,28 +843,28 @@ export function createSidebar(
                         return (
                           <DropdownMenuItem
                             key={subItem.id}
-                            render={
-                              <ActiveLink
-                                href={subItem.href}
-                                onClick={(e) => {
-                                  subItem.onSelect?.(e)
-                                  handleNavigate()
-                                }}
-                                className="flex items-center gap-2 cursor-pointer w-full"
-                              />
-                            }
+                            asChild
                           >
-                            {subItem.icon && (
-                              <span className="size-4 shrink-0">
-                                {subItem.icon}
-                              </span>
-                            )}
-                            <span className="truncate">{subItem.title}</span>
-                            {subItem.badge && (
-                              <span className="ml-auto text-xs opacity-75">
-                                {subItem.badge}
-                              </span>
-                            )}
+                            <ActiveLink
+                              href={subItem.href}
+                              onClick={(e) => {
+                                subItem.onSelect?.(e)
+                                handleNavigate()
+                              }}
+                              className="flex items-center gap-2 cursor-pointer w-full"
+                            >
+                              {subItem.icon && (
+                                <span className="size-4 shrink-0">
+                                  {subItem.icon}
+                                </span>
+                              )}
+                              <span className="truncate">{subItem.title}</span>
+                              {subItem.badge && (
+                                <span className="ml-auto text-xs opacity-75">
+                                  {subItem.badge}
+                                </span>
+                              )}
+                            </ActiveLink>
                           </DropdownMenuItem>
                         )
                       }
@@ -903,7 +899,7 @@ export function createSidebar(
         return (
           <Primitives.Item key={item.id} className={classNames?.item}>
             <Primitives.Collapsible open={isFolderOpen}>
-              <div className="flex items-center gap-1 group/folder">
+              <div className="flex w-full min-w-0 items-center gap-1 group/folder">
                 <button
                   type="button"
                   onClick={() => toggleFolder(item.id)}
@@ -911,8 +907,8 @@ export function createSidebar(
                   aria-expanded={isFolderOpen}
                   disabled={item.disabled}
                   className={cn(
-                    "group/button inline-flex shrink-0 items-center justify-start rounded-lg border border-transparent bg-clip-padding text-sm font-medium whitespace-nowrap transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:opacity-50",
-                    "w-full gap-2 px-2.5 h-8 font-normal transition-colors",
+                    "group/button flex w-full min-w-0 items-center justify-start rounded-lg border border-transparent bg-clip-padding text-sm font-medium transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:opacity-50",
+                    "gap-2 px-2.5 h-8 font-normal transition-colors",
                     hasActive
                       ? "font-medium text-foreground bg-sidebar-accent/50"
                       : "text-sidebar-foreground/75 hover:bg-sidebar-accent/40 hover:text-sidebar-foreground",
@@ -924,13 +920,13 @@ export function createSidebar(
                       {item.icon}
                     </span>
                   )}
-                  <span className="flex-1 text-left truncate text-xs">
+                  <span className="flex-1 min-w-0 text-left truncate text-xs">
                     {item.title}
                   </span>
                   {item.badge && (
                     <span
                       className={cn(
-                        "inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-medium bg-sidebar-accent text-sidebar-accent-foreground",
+                        "inline-flex shrink-0 items-center px-1.5 py-0.5 rounded-full text-[10px] font-medium bg-sidebar-accent text-sidebar-accent-foreground",
                         classNames?.badge
                       )}
                     >
@@ -940,7 +936,7 @@ export function createSidebar(
                   {item.collapsible !== false && (
                     <Primitives.FolderIcon
                       className={cn(
-                        "size-3.5 transition-transform duration-200 text-muted-foreground",
+                        "size-3.5 shrink-0 transition-transform duration-200 text-muted-foreground",
                         !isFolderOpen && "-rotate-90"
                       )}
                     />
@@ -975,14 +971,14 @@ export function createSidebar(
             <FileCode className="size-4 shrink-0 text-sidebar-foreground/70" />
           ) : null}
           {!isCollapsed && (
-            <span className="flex-1 truncate text-left text-xs font-normal">
+            <span className="flex-1 min-w-0 truncate text-left text-xs font-normal">
               {item.title}
             </span>
           )}
           {!isCollapsed && item.badge && (
             <span
               className={cn(
-                "inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-medium bg-sidebar-accent text-sidebar-accent-foreground",
+                "inline-flex shrink-0 items-center px-1.5 py-0.5 rounded-full text-[10px] font-medium bg-sidebar-accent text-sidebar-accent-foreground",
                 classNames?.badge
               )}
             >
@@ -996,7 +992,7 @@ export function createSidebar(
         "flex items-center gap-2 rounded-lg text-xs transition-colors outline-none",
         isCollapsed
           ? "size-9 justify-center p-0"
-          : "w-full justify-start px-2.5 h-8",
+          : "w-full min-w-0 justify-start px-2.5 h-8",
         item.active
           ? "bg-sidebar-accent text-sidebar-accent-foreground font-medium"
           : "text-sidebar-foreground/80 hover:text-sidebar-foreground hover:bg-sidebar-accent/50",
@@ -1049,7 +1045,9 @@ export function createSidebar(
       if (isCollapsed) {
         controlNode = (
           <Primitives.Tooltip>
-            <TooltipTrigger render={controlNode as React.ReactElement} />
+            <TooltipTrigger asChild>
+              {controlNode}
+            </TooltipTrigger>
             <TooltipContent side={side === "left" ? "right" : "left"}>
               {item.tooltip ?? accessibleText}
             </TooltipContent>
