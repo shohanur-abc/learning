@@ -3,22 +3,8 @@
 import * as React from "react"
 import { ThemeProvider as NextThemesProvider, useTheme } from "next-themes"
 
-function ThemeProvider({
-  children,
-  ...props
-}: React.ComponentProps<typeof NextThemesProvider>) {
-  return (
-    <NextThemesProvider
-      attribute="class"
-      defaultTheme="system"
-      enableSystem
-      disableTransitionOnChange
-      {...props}
-    >
-      <ThemeHotkey />
-      {children}
-    </NextThemesProvider>
-  )
+export type ThemeProviderProps = React.ComponentProps<typeof NextThemesProvider> & {
+  readonly enableHotkey?: boolean
 }
 
 function isTypingTarget(target: EventTarget | null) {
@@ -68,4 +54,21 @@ function ThemeHotkey() {
   return null
 }
 
-export { ThemeProvider }
+export function ThemeProvider({
+  children,
+  enableHotkey = true,
+  ...props
+}: ThemeProviderProps) {
+  return (
+    <NextThemesProvider
+      attribute="class"
+      defaultTheme="system"
+      enableSystem
+      disableTransitionOnChange
+      {...props}
+    >
+      {enableHotkey && <ThemeHotkey />}
+      {children}
+    </NextThemesProvider>
+  )
+}
